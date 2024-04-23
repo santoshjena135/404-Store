@@ -6,16 +6,16 @@ const CTA = (props) => {
     <>
       {!props.isSale ? (
         props.isHero ? (
-          <TouchableOpacity style={styles.buttonHero}>
+          <TouchableOpacity style={styles.buttonHero} onPress={props.onPress}>
             <Text style={styles.buttonTextHero}>{props.title}</Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>{props.title}</Text>
+          <TouchableOpacity style={props.cosTheme ? styles.cosThemeButton : styles.button} onPress={props.onPress}>
+            <Text style={props.cosTheme ? styles.cosThemeButtonText :styles.buttonText}>{props.title}</Text>
           </TouchableOpacity>
         )
       ) : (
-        <TouchableOpacity style={styles.buttonSale}>
+        <TouchableOpacity style={styles.buttonSale} onPress={props.onPress}>
           <Text style={styles.buttonTextSale}>{props.title}</Text>
         </TouchableOpacity>
       )}
@@ -61,6 +61,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+  cosThemeButton:{
+    backgroundColor: 'black',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    margin: 5
+  },
+  cosThemeButtonText:{
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+  }
 });
 
 export default CTA;
