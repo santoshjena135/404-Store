@@ -1,20 +1,62 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, StyleSheet, Text} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Landing from './screens/Landing';
+import Menu from './screens/Menu';
+import Cart from './screens/Cart';
+import Header from './components/header';
+import SiteBanner from './components/sitebanner';
+const Stack = createNativeStackNavigator();
 
-export default function App() {
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+<NavigationContainer style={{ backgroundColor: 'white' }}>
+  <View style={styles.navContainer}>
+    <SiteBanner style={styles.sitebanner} bannerText="COS ATELIER SEASON" bannerLink="SALE 20% OFF"/>
+    <Header/>
+  </View>
+  <Stack.Navigator screenOptions={{ headerShown: false,
+                                    contentStyle: { backgroundColor: 'white'},
+                                  }}>
+
+    <Stack.Screen
+      name="Landing"
+      component={Landing}
+    />
+    <Stack.Screen 
+      name="Menu" 
+      component={Menu}
+      options={{gestureDirection:'horizontal'}}
+    />
+    <Stack.Screen 
+      name="Cart" 
+      component={Cart}
+      options={{gestureDirection:'vertical'}}
+    />
+  </Stack.Navigator>
+</NavigationContainer>
+
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  navContainer:{
+      marginTop:60
   },
+  heroContainer:{
+    flexDirection:'row'
+  },
+  ctaContainer:{
+    flexDirection:'row',
+    padding: 30
+  },
+  scrollView:{
+    flex: 1
+  },
+  teaserTextContainer:{
+    paddingTop: 5,
+    padding: 20
+  }
 });
+
+export default App;
