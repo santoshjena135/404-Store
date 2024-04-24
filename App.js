@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text} from 'react-native';
+import { View, StyleSheet, StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Landing from './screens/Landing';
@@ -6,12 +6,14 @@ import Menu from './screens/Menu';
 import Cart from './screens/Cart';
 import Header from './components/header';
 import SiteBanner from './components/sitebanner';
+
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
 <NavigationContainer style={{ backgroundColor: 'white' }}>
   <View style={styles.navContainer}>
+  <StatusBar barStyle="dark-content" />
     <SiteBanner style={styles.sitebanner} bannerText="COS ATELIER SEASON" bannerLink="SALE 20% OFF"/>
     <Header/>
   </View>

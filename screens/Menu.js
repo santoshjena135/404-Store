@@ -10,20 +10,20 @@ const Menu = ({ navigation }) => {
     navigation.goBack();
   };
 
-  const menuItems = {
-    "My Profile": "profile",
-    "Customer Service": "customerservice",
-    "Store Locator": "pushpino",
-    "Gift Cards": "gift",
-    "Orders & Returns": "shoppingcart",
-    "FAQ": "questioncircleo",
-    "App Settings": "setting"
-  };
+  const menuItems = [
+    { id: 1, label: "My Profile", iconName: "profile" },
+    { id: 2, label: "Customer Service", iconName: "customerservice" },
+    { id: 3, label: "Store Locator", iconName: "pushpino" },
+    { id: 4, label: "Gift Cards", iconName: "gift" },
+    { id: 5, label: "Orders & Returns", iconName: "shoppingcart" },
+    { id: 6, label: "FAQ", iconName: "questioncircleo" },
+    { id: 7, label: "App Settings", iconName: "setting" }
+  ];
 
   return (
     <View style={styles.container}>
-      {Object.entries(menuItems).map(([title, iconName]) => (
-        <OptionButton buttonText={title} iconName={iconName}/>
+      {menuItems.map(item=>(
+        <OptionButton key={item.id} buttonText={item.label} iconName={item.iconName}/>
       ))}
         <Spacer spacerHeight={70}/>
         <CTA title="Back" cosTheme onPress={goBack} style={styles.customButton}/>

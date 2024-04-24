@@ -7,6 +7,7 @@ import CTA from '../components/cta';
 import TeaserText from '../components/teasers';
 import Spacer from '../components/spacer';
 import * as Font from 'expo-font'; 
+import { active_categories_api_url } from '@env';
 
   const fetchFonts = async () => {
     try {
@@ -20,18 +21,26 @@ import * as Font from 'expo-font';
   };
   
   const Landing = () => {
+    const [categories, setCategories] = useState([]);
+    useEffect(() => {
+      fetch(active_categories_api_url)
+        .then(response => response.json())
+        .then(data => setCategories(data))
+        .catch(error => console.error('Error fetching categories:', error));
+    }, []);
+
     const [fontLoaded, setFontLoaded] = useState(false);
-  
     useEffect(() => {
       fetchFonts().then(() => {
         setFontLoaded(true);
       });
     }, []);
-  
     if (!fontLoaded) {
       // Render a loading indicator or placeholder if font is not loaded yet
       return null;
     }
+  var val = 1;
+
   
   return ( 
         <ScrollView style={styles.scrollView}>
@@ -41,11 +50,15 @@ import * as Font from 'expo-font';
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.ctaContainer}>
-              <CTA isSale title="SALE"/>
-              <CTA title="Baby"/>
-              <CTA title="COS by You"/>
-              <CTA title="Accessories"/>
-              <CTA title="Factory Outlet"/>
+              {categories.length > 0 ? (
+                    categories.map(category => (
+                      <CTA key={category.categoryName} title={category.displayName}/>
+                    ))
+                    ):(
+                    <>
+                      <CTA title="                             Loading...                                "/>
+                    </>
+                  )}
             </View>
           </ScrollView>
           <Spacer/>
