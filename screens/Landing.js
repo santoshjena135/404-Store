@@ -1,13 +1,11 @@
 import React, {useState , useEffect} from 'react';
 import { View, StyleSheet,ScrollView, Button,Text } from 'react-native';
-import Header from '../components/header';
-import SiteBanner from '../components/sitebanner';
 import Hero from '../components/hero';
 import CTA from '../components/cta';
 import TeaserText from '../components/teasers';
 import Spacer from '../components/spacer';
 import * as Font from 'expo-font'; 
-import { active_categories_api_url } from '@env';
+import { active_categories_api_url, isSaleKeyword } from '@env';
 
   const fetchFonts = async () => {
     try {
@@ -52,7 +50,7 @@ import { active_categories_api_url } from '@env';
             <View style={styles.ctaContainer}>
               {categories.length > 0 ? (
                     categories.map(category => (
-                      <CTA key={category.categoryName} title={category.displayName}/>
+                      <CTA key={category.categoryName} title={category.displayName} isSale={category.displayName.toLowerCase().includes(isSaleKeyword)}/>
                     ))
                     ):(
                     <>
