@@ -6,6 +6,8 @@ import Menu from './screens/Menu';
 import Cart from './screens/Cart';
 import Header from './components/header';
 import SiteBanner from './components/sitebanner';
+import PLP from './screens/ProductListingPage';
+import PDP from './screens/ProductDescriptionPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +36,16 @@ const App = () => {
       name="Cart" 
       component={Cart}
       options={{gestureDirection:'vertical'}}
+    />
+    <Stack.Screen 
+      name="PLP" 
+      component={PLP}
+      options={{gestureDirection:'horizontal'}}
+    />
+    <Stack.Screen 
+      name="PDP" 
+      component={PDP}
+      options={{gestureDirection:'horizontal'}}
     />
   </Stack.Navigator>
 </NavigationContainer>

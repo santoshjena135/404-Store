@@ -18,7 +18,7 @@ import { active_categories_api_url, isSaleKeyword } from '@env';
     }
   };
   
-  const Landing = () => {
+  const Landing = ({navigation}) => {
     const [categories, setCategories] = useState([]);
     useEffect(() => {
       fetch(active_categories_api_url)
@@ -39,6 +39,12 @@ import { active_categories_api_url, isSaleKeyword } from '@env';
     }
   var val = 1;
 
+  const openPLP = (categoryName,displayName) => {
+    console.log("CatName:",categoryName);
+    const encodedCategoryName = encodeURIComponent(categoryName);
+    navigation.navigate('PLP', { categoryName: encodedCategoryName, displayName: displayName });
+  };
+
   
   return ( 
         <ScrollView style={styles.scrollView}>
@@ -50,7 +56,7 @@ import { active_categories_api_url, isSaleKeyword } from '@env';
             <View style={styles.ctaContainer}>
               {categories.length > 0 ? (
                     categories.map(category => (
-                      <CTA key={category.categoryName} title={category.displayName} isSale={category.displayName.toLowerCase().includes(isSaleKeyword)}/>
+                      <CTA key={category.categoryName} title={category.displayName} isSale={category.displayName.toLowerCase().includes(isSaleKeyword)} onPress={() => openPLP(category.categoryName, category.displayName)}/>
                     ))
                     ):(
                     <>
