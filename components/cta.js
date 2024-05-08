@@ -66,7 +66,11 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     alignItems: 'center',
-    margin: 5
+    margin: 15,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15
   },
   cosThemeButtonText:{
     color: 'white',

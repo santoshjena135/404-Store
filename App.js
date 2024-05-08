@@ -8,6 +8,7 @@ import Header from './components/header';
 import SiteBanner from './components/sitebanner';
 import PLP from './screens/ProductListingPage';
 import PDP from './screens/ProductDescriptionPage';
+import DeliveryPayments from './screens/DeliveryPayments';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,11 @@ const App = () => {
       name="PDP" 
       component={PDP}
       options={{gestureDirection:'horizontal'}}
+    />
+    <Stack.Screen 
+      name="DeliveryPayments" 
+      component={DeliveryPayments}
+      options={{gestureDirection:'vertical'}}
     />
   </Stack.Navigator>
 </NavigationContainer>

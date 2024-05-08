@@ -43,7 +43,7 @@ const ProductListingPage = ({ route, navigation }) => {
     </View>
     </ScrollView>
     <View style={styles.bottomCTA}>
-      <CTA title="Back" onPress={goBack}/>
+      <CTA cosTheme title="Back" onPress={goBack}/>
     </View>
     </>
   );
