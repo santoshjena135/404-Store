@@ -37,7 +37,10 @@ const ProductListingPage = ({ route, navigation }) => {
       <TouchableOpacity key={index} style={styles.productTileContainer} onPress={() => openPDP(product.id)}>
           <Image source={{ uri: product.image }} style={styles.productImage} />
           <Text style={styles.productTitle}>{product.title}</Text>
-          <Text style={styles.productPrice}>${product.price}</Text>
+          <View style={styles.priceAndRatingContainer}>
+            <Text style={styles.productPrice}>$ {product.price.toFixed(2).replace('.', ',')}</Text>
+            <Text style={styles.productRating}>{product.rating.rate.toFixed(1)} ({product.rating.count})</Text>
+          </View>
         </TouchableOpacity>
       ))}
     </View>
@@ -76,9 +79,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
+    alignSelf: 'flex-start'
+  },
+  priceAndRatingContainer:{
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between'
   },
   productPrice: {
     fontSize: 14,
+    alignSelf: 'flex-start'
+  },
+  productRating:{
+    fontSize: 14,
+    alignSelf: 'flex-end'
   },
   filterContainer:{
     flexDirection:'row',

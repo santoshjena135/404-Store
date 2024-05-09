@@ -4,6 +4,8 @@ import CTA from '../components/cta';
 import {pdp_api_url} from '@env';
 import Spacer from '../components/spacer';
 import Accordion from '../components/accordion';
+import SkeletonLoading from '../components/skeletonLoading';
+import { AntDesign } from '@expo/vector-icons';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -35,16 +37,23 @@ const ProductDescriptionPage = ({ route, navigation }) => {
     <>
     <ScrollView>
     <View style={styles.container}>
-      <Image style={styles.productImage} source={{uri : product.image}}></Image>
+      {product.image? <Image style={styles.productImage} source={{uri : product.image}}></Image> : <Image style={styles.productImage} source={require('../assets/loading.gif')}></Image>}
       <View style={styles.details}>
-        <Text style={styles.titleTextStyle}>{product.title}</Text>
+        <Text style={styles.titleTextStyle}>{product.title ? `${product.title}`: <SkeletonLoading/>}</Text>
         <Spacer/>
-        <Text style={styles.priceTextStyle}>$ {product.price}</Text>
+        <View style={styles.priceAndRatingContainer}>
+          <Text style={styles.priceTextStyle}>{product.price ? `$ ${product.price.toFixed(2).replace('.', ',')}`: <SkeletonLoading/>}</Text>
+          {product.rating ? <View style={{flexDirection:'row'}}>
+                              <AntDesign name="staro" size={13} color="black" />
+                              <Text style={styles.ratingTextStyle}>{product.rating.rate.toFixed(1)} ({product.rating.count})</Text>
+                            </View>
+        : null}</View>
         <Spacer/>
-      <Accordion accordionLabel="Product Details" accordionText={product.description} />
-      <Accordion accordionLabel="Materials" accordionText={product.description} />
-      <Accordion accordionLabel="Care Guide" accordionText={product.description} />
-      <CTA title="Delivery & Payments" onPress={()=>openDeliveryPaymentsPage()}></CTA>
+        <Accordion accordionLabel="Product Details" accordionText={product.description} />
+        {(product.material) ? <Accordion accordionLabel="Material" accordionText={product.material} /> : ''}
+        {(product.careguide) ? <Accordion accordionLabel="Care Guide" accordionText={product.careguide} /> : ''}
+        <Spacer/>
+        <CTA title="Delivery & Payments" onPress={()=>openDeliveryPaymentsPage()}></CTA>
       </View>
     </View>
     </ScrollView>
@@ -103,16 +112,28 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   titleTextStyle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     color: 'black',
     fontFamily: 'custom-font'
+  },
+  priceAndRatingContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end'
   },
   priceTextStyle: {
     fontSize: 16,
     fontWeight: 'bold',
     color: 'black',
     fontFamily: 'custom-font'
+  },
+  ratingTextStyle: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: 'black',
+    fontFamily: 'custom-font',
+    marginLeft: 5
   },
   descriptionTextStyle: {
     fontSize: 16,
