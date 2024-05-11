@@ -6,6 +6,7 @@ import Spacer from '../components/spacer';
 import Accordion from '../components/accordion';
 import SkeletonLoading from '../components/skeletonLoading';
 import { AntDesign } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -22,12 +23,27 @@ const ProductDescriptionPage = ({ route, navigation }) => {
 
   const [product, setProduct] = useState([]); 
   useEffect(() => {
-    const url = pdp_api_url+String(prodID);
-    fetch(url)
-      .then(response => response.json())
-      .then(data => setProduct(data))
-      .catch(error => console.error('Error fetching categories:', error));
-  }, []);
+    const fetchProductData = async () => {
+      try{
+        const cachedProduct = await AsyncStorage.getItem(`product_${prodID}`);
+        if(cachedProduct!==null){
+          //console.log("Serving PDP from cache!");
+          setProduct(JSON.parse(cachedProduct));
+        }
+        else{
+          //console.log("Serving PDP from fresh API call!");
+          const url = pdp_api_url+String(prodID);
+          const response = await fetch(url);
+          const data = await response.json();
+          setProduct(data);
+          await AsyncStorage.setItem(`product_${prodID}`, JSON.stringify(data));
+        }
+        } catch(error){
+          console.error('Error fetching product data:', error);
+        }
+      }
+      fetchProductData();
+    }, []);
 
   const openDeliveryPaymentsPage = ()=>{
     navigation.navigate('DeliveryPayments');

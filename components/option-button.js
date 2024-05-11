@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 const OptionButton = (props) => {
     return (
         <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.textAndFeather}>
+            <TouchableOpacity style={styles.textAndFeather} onPress={props.onPress}>
                 <Text style={styles.buttonText}>{props.buttonText}</Text>
                 <AntDesign style={styles.feather} name={props.iconName} size={20} color="black" />
             </TouchableOpacity>

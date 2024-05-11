@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import CTA from '../components/cta';
 import {plp_api_url} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const windowWidth = Dimensions.get('window').width;
 
 const ProductListingPage = ({ route, navigation }) => {
@@ -13,11 +15,28 @@ const ProductListingPage = ({ route, navigation }) => {
 
   const [products, setProducts] = useState([]); 
   useEffect(() => {
-    console.log("API HIT ON: ",plp_api_url+categoryName)
-    fetch(plp_api_url+categoryName)
-      .then(response => response.json())
-      .then(data => setProducts(data))
-      .catch(error => console.error('Error fetching categories:', error));
+    const fetchPLPData = async () => {
+      try{
+      //console.log("API HIT ON: ",plp_api_url+categoryName);
+      const cachedPLP = await AsyncStorage.getItem(`PLP_${categoryName}`);
+      if(cachedPLP!==null){
+        //console.log("Serving PLP from cache!");
+        setProducts(JSON.parse(cachedPLP));
+      }
+      else{
+        //console.log("Serving PLP from fresh API call!");
+        const url = plp_api_url+categoryName;
+        const response = await fetch(url);
+        const data = await response.json();
+        setProducts(data);
+        await AsyncStorage.setItem(`PLP_${categoryName}`, JSON.stringify(data));
+        }
+      }
+      catch (error){
+        console.error('Error fetching PLP data:', error);
+      }
+    }
+    fetchPLPData();
   }, []);
 
   const openPDP = (prodID) => {
