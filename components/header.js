@@ -1,7 +1,8 @@
 import React,{useState} from 'react';
 import { Text, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { Feather, EvilIcons } from '@expo/vector-icons'; // Import the icon library you're using
+import { Feather, EvilIcons, AntDesign } from '@expo/vector-icons'; // Import the icon library you're using
 import { useNavigation,} from '@react-navigation/native';
+import SearchHeader from './searchHeader';
 
 const Header = (props) => {
 
@@ -15,15 +16,25 @@ const Header = (props) => {
     // Navigate to the cart page when cart button is pressed
     navigation.navigate('Cart');
   };
+
+  const handleSearchPress = () => {
+    // Navigate to the cart page when cart button is pressed
+    props.setSearchHeaderState(true);
+    navigation.navigate('SDP');
+  };
+
   const goHome = () => {
     // Navigate to the cart page when cart button is pressed
     navigation.navigate('Landing');
   };
 
   return (
-    <View style={styles.container}>
+    <>
+    {props.isSearchHeader ? 
+      <SearchHeader setSearchHeaderState={props.setSearchHeaderState}/> 
+      :
+      <View style={styles.container}>
       <TouchableOpacity style={styles.iconContainer} onPress={handleMenuPress}>
-        {/* <Feather name={navigation.isFocused("Menu") ? "skip-back" : "menu"} size={24} color="black" /> */}
         {!props.isMenuOpen?<Feather name="menu" size={24} color="black" /> : <Feather name="x" size={24} color="black" />}
       </TouchableOpacity>
 
@@ -36,7 +47,13 @@ const Header = (props) => {
       <TouchableOpacity style={styles.iconContainer}>
         <EvilIcons name="cart" size={24} color="black" onPress={handleCartPress}/>
       </TouchableOpacity>
-    </View>
+
+      <TouchableOpacity style={styles.iconContainer}>
+        <AntDesign name="search1" size={24} color="black" onPress={handleSearchPress}/>
+      </TouchableOpacity>
+    </View>}
+
+    </>
   );
 };
 

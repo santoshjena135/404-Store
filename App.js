@@ -8,6 +8,7 @@ import Cart from './screens/Cart';
 import Header from './components/header';
 import SiteBanner from './components/sitebanner';
 import PLP from './screens/ProductListingPage';
+import SDP from './screens/SearchDisplayPage';
 import PDP from './screens/ProductDescriptionPage';
 import DeliveryPayments from './screens/DeliveryPayments';
 
@@ -16,20 +17,28 @@ const Stack = createNativeStackNavigator();
 const App = () => {
 
   const [isMenuOpen,setIsMenuOpen] = useState(false);
+  const [isSearchHeader,setIsSearchHeader] = useState(false);
   const setMenuState = (val) =>{
     setIsMenuOpen(val);
+  }
+  const setSearchHeaderState = (val) =>{
+    setIsSearchHeader(val);
   }
 
   return (
   <NavigationContainer onStateChange={(state) => {
                                                     const currentRouteName = state.routes[state.index].name;
                                                     currentRouteName === 'Menu' ? setMenuState(true) : setMenuState(false);
+                                                    if(currentRouteName!='SDP')
+                                                    {
+                                                      setSearchHeaderState(false);
+                                                    }
                                                   }}
   style={{ backgroundColor: 'white' }}>
     <View style={styles.navContainer}>
     <StatusBar barStyle="dark-content" />
       <SiteBanner style={styles.sitebanner} bannerText="COS ATELIER SEASON" bannerLink="SALE 20% OFF"/>
-      <Header isMenuOpen={isMenuOpen}/>
+      <Header setSearchHeaderState={setSearchHeaderState} isSearchHeader={isSearchHeader} isMenuOpen={isMenuOpen}/>
     </View>
     <Stack.Navigator screenOptions={{ headerShown: false,
                                       contentStyle: { backgroundColor: 'white'},
@@ -53,6 +62,11 @@ const App = () => {
         name="PLP" 
         component={PLP}
         options={{gestureDirection:'horizontal'}}
+      />
+      <Stack.Screen 
+        name="SDP" 
+        component={SDP}
+        options={{gestureDirection:'vertical'}}
       />
       <Stack.Screen 
         name="PDP" 
