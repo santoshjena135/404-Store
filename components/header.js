@@ -1,13 +1,14 @@
-import React from 'react';
-import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import React,{useState} from 'react';
+import { Text, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Feather, EvilIcons } from '@expo/vector-icons'; // Import the icon library you're using
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,} from '@react-navigation/native';
 
-const Header = () => {
+const Header = (props) => {
+
   const navigation = useNavigation();
 
   const handleMenuPress = () => {
-      navigation.navigate('Menu');
+    props.isMenuOpen ? navigation.goBack() : navigation.navigate('Menu');
   };
 
   const handleCartPress = () => {
@@ -23,7 +24,7 @@ const Header = () => {
     <View style={styles.container}>
       <TouchableOpacity style={styles.iconContainer} onPress={handleMenuPress}>
         {/* <Feather name={navigation.isFocused("Menu") ? "skip-back" : "menu"} size={24} color="black" /> */}
-        <Feather name="menu" size={24} color="black" />
+        {!props.isMenuOpen?<Feather name="menu" size={24} color="black" /> : <Feather name="x" size={24} color="black" />}
       </TouchableOpacity>
 
       <View style={styles.logoContainer}>

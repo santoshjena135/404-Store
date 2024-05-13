@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { Alert, View, StyleSheet } from 'react-native';
 import OptionButton from '../components/option-button';
 import Spacer from '../components/spacer';
 import CTA from '../components/cta';
@@ -7,6 +7,7 @@ import TeaserText from '../components/teasers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Menu = ({ navigation }) => {
+  
   const goBack = () => {
     navigation.goBack();
   };
@@ -15,8 +16,10 @@ const Menu = ({ navigation }) => {
     const clearCache = async () => {
       try {
         await AsyncStorage.clear();
-        console.log('Cache cleared successfully');
+        console.log('Cache cleared successfully!');
+        Alert.alert('Cache cleared successfully!');
       } catch (error) {
+        Alert.alert('No cache to clear!');
         console.error('Error clearing cache:', error);
       }
     }
