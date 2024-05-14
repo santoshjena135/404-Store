@@ -29,10 +29,7 @@ const App = () => {
   <NavigationContainer onStateChange={(state) => {
                                                     const currentRouteName = state.routes[state.index].name;
                                                     currentRouteName === 'Menu' ? setMenuState(true) : setMenuState(false);
-                                                    if(currentRouteName!='SDP')
-                                                    {
-                                                      setSearchHeaderState(false);
-                                                    }
+                                                    (currentRouteName!='SDP' ? setSearchHeaderState(false) : setSearchHeaderState(true))
                                                   }}
   style={{ backgroundColor: 'white' }}>
     <View style={styles.navContainer}>

@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
-import { TextInput, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { Feather, EvilIcons, AntDesign } from '@expo/vector-icons'; // Import the icon library you're using
+import { TextInput, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Feather, AntDesign } from '@expo/vector-icons';
 import { useNavigation,} from '@react-navigation/native';
 
 const SearchHeader = (props) => {
@@ -13,12 +13,11 @@ const SearchHeader = (props) => {
     setText(inputText);
   };
 
-  const handleSubmit = () => {
-    if(text!="")
-    {
-      console.log(text);
-    }
-  };
+  const handleSubmit = (text) => {
+    if(text!=''){
+      navigation.navigate('SDP', {searchTerm: text})
+      }
+    };
 
   const handleClose = () =>{
     setText('');
@@ -32,7 +31,7 @@ const SearchHeader = (props) => {
         style={styles.input}
         placeholder="Search COS"
         onChangeText={handleChangeText}
-        onSubmitEditing={handleSubmit} // This function will be called when the return key is pressed
+        onSubmitEditing={()=> handleSubmit(text)} // When the return key of keyboard is pressed
         returnKeyType="search"
         value={text}/>
       <View style={styles.searchNavContainer}>
@@ -40,7 +39,7 @@ const SearchHeader = (props) => {
           <Feather name="x" size={24} color="black" onPress={handleClose}/>
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconContainer}>
-          <AntDesign name="search1" size={24} color="black" onPress={handleSubmit}/>
+          <AntDesign name="search1" size={24} color="black" onPress={() => handleSubmit(text)}/>
         </TouchableOpacity>
       </View>
     </View>
