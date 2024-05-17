@@ -26,6 +26,11 @@ const Menu = ({ navigation }) => {
     if(id==8){ // do not change button order
       clearCache();
     }
+    else if(id==9)
+    {
+      console.log("Clearing Cookies....");
+      //to be implemented later
+    }
   }
 
   const menuItems = [
@@ -35,8 +40,9 @@ const Menu = ({ navigation }) => {
     { id: 4, label: "Gift Cards", iconName: "gift" },
     { id: 5, label: "Orders & Returns", iconName: "shoppingcart" },
     { id: 6, label: "FAQ", iconName: "questioncircleo" },
-    { id: 7, label: "App Settings", iconName: "setting" },
-    { id: 8, label: "Clear App Cache", iconName: "setting"}
+    // { id: 7, label: "App Settings", iconName: "setting" },
+    { id: 8, label: "Clear App Cache", iconName: "setting"},
+    { id: 9, label: "Clear Cookies", iconName: "setting"}
   ];
 
   return (

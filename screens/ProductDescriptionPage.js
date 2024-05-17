@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { Alert, View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import CTA from '../components/cta';
 import {pdp_api_url} from '@env';
 import Spacer from '../components/spacer';
@@ -7,6 +7,7 @@ import Accordion from '../components/accordion';
 import SkeletonLoading from '../components/skeletonLoading';
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {cart_api_url} from '@env';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -15,8 +16,24 @@ const ProductDescriptionPage = ({ route, navigation }) => {
     navigation.goBack();
   };
 
-  const addToBag = () =>{
-    console.log("ATB Called!");
+  const addToBag = async (prodID,prodTitle) =>{
+    const payload = { productID: prodID, updateType:"add" };
+    const response = await fetch(cart_api_url, {
+                                                      method: 'POST',
+                                                      credentials: 'include',
+                                                      headers: {
+                                                        'Content-Type': 'application/json'
+                                                      },
+                                                      body: JSON.stringify(payload)
+                                                    })
+
+    if(response.status == 200)
+    {
+      Alert.alert(`'${prodTitle}' added to bag!`);
+    }
+    else{
+      Alert.alert("Something went wrong when adding to bag!");
+    }
   }
 
   const { prodID } = route.params;
@@ -33,7 +50,10 @@ const ProductDescriptionPage = ({ route, navigation }) => {
         else{
           //console.log("Serving PDP from fresh API call!");
           const url = pdp_api_url+String(prodID);
-          const response = await fetch(url);
+          const response = await fetch(url,{
+            method: 'GET',
+            credentials: 'include'
+          });
           const data = await response.json();
           setProduct(data);
           await AsyncStorage.setItem(`product_${prodID}`, JSON.stringify(data));
@@ -75,7 +95,7 @@ const ProductDescriptionPage = ({ route, navigation }) => {
     </ScrollView>
     <View style={styles.footerButtons}>
       <CTA title="Back" onPress={goBack}/>
-      <CTA title="Add to Bag" onPress={addToBag}/>
+      <CTA title="Add to Bag" onPress={()=>addToBag(product.id, product.title)}/>
     </View>
     </>
   );

@@ -26,7 +26,10 @@ const ProductListingPage = ({ route, navigation }) => {
       else{
         //console.log("Serving PLP from fresh API call!");
         const url = plp_api_url+categoryName;
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          method: 'GET',
+          credentials: 'include'
+        });
         const data = await response.json();
         setProducts(data);
         await AsyncStorage.setItem(`PLP_${categoryName}`, JSON.stringify(data));

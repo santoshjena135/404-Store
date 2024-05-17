@@ -21,7 +21,9 @@ import { active_categories_api_url, isSaleKeyword } from '@env';
   const Landing = ({navigation}) => {
     const [categories, setCategories] = useState([]);
     useEffect(() => {
-      fetch(active_categories_api_url)
+      fetch(active_categories_api_url,{
+        method: 'GET',
+        credentials: 'include'})
         .then(response => response.json())
         .then(data => setCategories(data))
         .catch(error => console.error('Error fetching categories:', error));
