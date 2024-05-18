@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Image, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import QuantityCounter from './quantity-counter';
 
 const ProductRow = (props) => {
+
+    const [quantity,setQuantity] = useState(props.productQty);
+
     return (
         <View style={styles.rowContainer}>
             <TouchableOpacity style={styles.photoAndTextContainer} onPress={props.onPress}>
@@ -14,6 +18,9 @@ const ProductRow = (props) => {
                         <Text style={styles.buttonText}>${props.productPrice.toFixed(2).replace('.',',')}</Text>
                         <Text style={styles.buttonText}>x{props.productQty}</Text>
                         <Text style={styles.buttonText}>${(props.productPrice*props.productQty).toFixed(2).replace('.',',')}</Text>
+                    </View>
+                    <View>
+                        <QuantityCounter setTrigger={props.setTrigger} quantity={props.productQty} setQuantity={setQuantity} productId={props.productId}/>
                     </View>
                 </View>
             </TouchableOpacity>

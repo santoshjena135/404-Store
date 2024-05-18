@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import { View, Text, Button, ScrollView, StyleSheet } from 'react-native';
+import React, {useState, useCallback} from 'react';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import CTA from '../components/cta';
 import TeaserText from '../components/teasers';
@@ -13,6 +13,7 @@ const Cart = ({ navigation }) => {
   const [cartData,setCartData] = useState([]);
   const [productDetails,setProductDetails] = useState([]);
   const [cartTotal,setCartTotal] = useState(0);
+  const [trigger,setTrigger] = useState(0);
 
   const goBack = () => {
     navigation.goBack();
@@ -57,7 +58,7 @@ const Cart = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       fetchCartDetails();
-    }, [])
+    }, [trigger])
   );
 
   return (
@@ -73,11 +74,11 @@ const Cart = ({ navigation }) => {
       <>
         <ScrollView>
           {productDetails.map((product, index) => (
-                      <ProductRow key={index} productImage={product.image} productName={product.title} productPrice={product.price} productQty={cartData[product.id]} onPress={()=>{openPDP(product.id)}}/>
+                      <ProductRow setTrigger={setTrigger} key={index} productImage={product.image} productName={product.title} productPrice={product.price} productQty={cartData[product.id]} productId={product.id} onPress={()=>{openPDP(product.id)}}/>
           ))}
         </ScrollView>
         <View style={styles.footerButtons}>
-            <CTA cosTheme title={`Proceed to Pay $ ${cartTotal.toFixed(2).replace('.',',')}`} onPress={goBack} />
+            <CTA cosTheme title={`Pay $ ${cartTotal.toFixed(2).replace('.',',')}`} onPress={goBack} />
           </View>
       </>
         }
@@ -87,10 +88,10 @@ const Cart = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   footerButtons:{
-    marginBottom: 20
+    marginBottom: 20,
   },
   container:{
-    flex: 1
+    flex: 1,
   }
 })
 

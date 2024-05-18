@@ -63,7 +63,7 @@ const ProductDescriptionPage = ({ route, navigation }) => {
         }
       }
       fetchProductData();
-    }, []);
+    }, [prodID]);
 
   const openDeliveryPaymentsPage = ()=>{
     navigation.navigate('DeliveryPayments');
