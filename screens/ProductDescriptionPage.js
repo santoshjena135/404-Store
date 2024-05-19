@@ -8,15 +8,21 @@ import SkeletonLoading from '../components/skeletonLoading';
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {cart_api_url} from '@env';
+import QuantityCounter from '../components/quantity-counter'; 
 
 const windowWidth = Dimensions.get('window').width;
 
 const ProductDescriptionPage = ({ route, navigation }) => {
+
+  const [footerState,setFooterState] = useState(false);
+  const [inCart,setInCart] = useState(false);
+  const [quantity,setQuantity] = useState(0);
+
   const goBack = () => {
     navigation.goBack();
   };
 
-  const addToBag = async (prodID,prodTitle) =>{
+  const addToBag = async (prodID) =>{
     const payload = { productID: prodID, updateType:"add" };
     const response = await fetch(cart_api_url, {
                                                       method: 'POST',
@@ -29,7 +35,8 @@ const ProductDescriptionPage = ({ route, navigation }) => {
 
     if(response.status == 200)
     {
-      Alert.alert(`'${prodTitle}' added to bag!`);
+      //Alert.alert(`'${prodTitle}' added to bag!`);
+      setQuantity(quantity+1);
     }
     else{
       Alert.alert("Something went wrong when adding to bag!");
@@ -57,13 +64,34 @@ const ProductDescriptionPage = ({ route, navigation }) => {
           const data = await response.json();
           setProduct(data);
           await AsyncStorage.setItem(`product_${prodID}`, JSON.stringify(data));
-        }
+          }
+          const cart_response = await fetch(cart_api_url,{
+            method: 'GET',
+            credentials: 'include'
+          });
+          const cart_data = await cart_response.json();
+          // console.log("cart_respponse ->",cart_response);
+          // console.log("focused_PDP_ID ->",prodID);
+          // console.log("cart_data -> ",cart_data);
+          // console.log("inCart?->", Object.keys(cart_data).includes(prodID.toString()));
+          if(Object.keys(cart_data).includes(prodID.toString()))
+          {
+            console.log("In Cart");
+            setInCart(true);
+            setQuantity(cart_data[prodID]);
+          }
+          else{
+            console.log("Not in cart.");
+            setInCart(false);
+            setQuantity(0);
+          }
+          setFooterState(true);
         } catch(error){
           console.error('Error fetching product data:', error);
         }
       }
       fetchProductData();
-    }, [prodID]);
+    }, [prodID,quantity]);
 
   const openDeliveryPaymentsPage = ()=>{
     navigation.navigate('DeliveryPayments');
@@ -95,7 +123,7 @@ const ProductDescriptionPage = ({ route, navigation }) => {
     </ScrollView>
     <View style={styles.footerButtons}>
       <CTA title="Back" onPress={goBack}/>
-      <CTA title="Add to Bag" onPress={()=>addToBag(product.id, product.title)}/>
+      {footerState? ((inCart) ? <QuantityCounter setQuantity={setQuantity} productId={product.id} quantity={quantity}/> : <CTA title="Add to Bag" onPress={()=>addToBag(product.id, product.title)}/>): null}
     </View>
     </>
   );
@@ -144,8 +172,9 @@ const styles = StyleSheet.create({
   footerButtons:{
     flexDirection: 'row',
     padding: 15,
-    marginBottom: 20,
-    justifyContent: 'space-between'
+    marginBottom: 25,
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   titleTextStyle: {
     fontSize: 18,

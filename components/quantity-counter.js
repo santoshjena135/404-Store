@@ -28,15 +28,15 @@ const QuantityCounter = (props) => {
         {
             updateBag(id,type);
             props.setQuantity((props.quantity)+1);
-            props.setTrigger(Date.now());
+            if(props.setTrigger){props.setTrigger(Date.now());}
         }
         else if(type==="remove")
         {
             if(props.quantity==1)
             {
                 Alert.alert(
-                    'Confirm!',
-                    'Are you sure you want to remove the product from bag?',
+                    'You sure you want to remove the product from bag?',
+                    '',
                     [
                     {
                         text: 'Cancel',
@@ -48,7 +48,7 @@ const QuantityCounter = (props) => {
                         onPress: () => {
                             updateBag(id,type);
                             props.setQuantity(0);
-                            props.setTrigger(Date.now());
+                            if(props.setTrigger){props.setTrigger(Date.now());}
                         },
                     },
                     ],
@@ -58,7 +58,7 @@ const QuantityCounter = (props) => {
             else{
                 updateBag(id,type);
                 props.setQuantity((props.quantity)-1);
-                props.setTrigger(Date.now());
+                if(props.setTrigger){props.setTrigger(Date.now());}
             }        
         } 
     }
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     container:{
         flexDirection: 'row',
         marginHorizontal: 10,
-        marginVertical: 15,
+        marginVertical: 5,
         justifyContent: 'center',
     },
     components:{

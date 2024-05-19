@@ -1,8 +1,9 @@
-import React,{useState} from 'react';
-import { Text, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import React from 'react';
+import { Dimensions, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Feather, EvilIcons, AntDesign } from '@expo/vector-icons'; // Import the icon library you're using
 import { useNavigation,} from '@react-navigation/native';
 import SearchHeader from './searchHeader';
+const windowWidth = Dimensions.get('window').width;
 
 const Header = (props) => {
 
@@ -34,23 +35,23 @@ const Header = (props) => {
       <SearchHeader setSearchHeaderState={props.setSearchHeaderState}/> 
       :
       <View style={styles.container}>
-      <TouchableOpacity style={styles.iconContainer} onPress={handleMenuPress}>
-        {!props.isMenuOpen?<Feather name="menu" size={24} color="black" /> : <Feather name="x" size={24} color="black" />}
-      </TouchableOpacity>
-
-      <View style={styles.logoContainer}>
-        <TouchableOpacity onPress={goHome}>
-          <Image source={require('../assets/COS_Atelier_Logo.png')} style={styles.logo} />
+        <TouchableOpacity style={styles.iconContainer} onPress={handleMenuPress}>
+          {!props.isMenuOpen?<Feather name="menu" size={24} color="black" /> : <Feather name="x" size={24} color="black" />}
         </TouchableOpacity>
-      </View>
 
-      <TouchableOpacity style={styles.iconContainer}>
-        <EvilIcons name="cart" size={24} color="black" onPress={handleCartPress}/>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.iconContainer}>
-        <AntDesign name="search1" size={24} color="black" onPress={handleSearchPress}/>
-      </TouchableOpacity>
+        <View style={styles.logoContainer}>
+          <TouchableOpacity onPress={goHome}>
+            <Image source={require('../assets/COS_Atelier_Logo.png')} style={styles.logo} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.cartSearchContainer}>
+          <TouchableOpacity style={styles.iconContainer}>
+            <EvilIcons name="cart" size={24} color="black" onPress={handleCartPress}/>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconContainer}>
+            <AntDesign name="search1" size={24} color="black" onPress={handleSearchPress}/>
+          </TouchableOpacity>
+        </View>
     </View>}
 
     </>
@@ -73,6 +74,8 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   logoContainer: {
+    position: 'absolute',
+    marginLeft: (windowWidth/2)-50,
     flex: 1,
     alignItems: 'center',
   },
@@ -80,6 +83,9 @@ const styles = StyleSheet.create({
     width: 100,
     height: 30,
     resizeMode: 'contain',
+  },
+  cartSearchContainer:{
+    flexDirection: 'row'
   }
 });
 

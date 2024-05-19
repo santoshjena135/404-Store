@@ -1,9 +1,9 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 
 const CTA = (props) => {
   return (
-    <>
+    <View style={styles.container}>
       {!props.isSale ? (
         props.isHero ? (
           <TouchableOpacity style={styles.buttonHero} onPress={props.onPress}>
@@ -19,7 +19,7 @@ const CTA = (props) => {
           <Text style={styles.buttonTextSale}>{props.title}</Text>
         </TouchableOpacity>
       )}
-    </>
+    </View>
   );
 };
 

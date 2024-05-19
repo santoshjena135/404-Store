@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
     rowContainer:{
         padding: 0,
         borderBottomWidth: 0.2,
-        marginHorizontal: 15
+        paddingBottom: 10,
+        marginVertical: 20
     },
     photoAndTextContainer:{
         flexDirection: 'row',
