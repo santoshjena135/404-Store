@@ -41,7 +41,7 @@ const Header = (props) => {
 
         <View style={styles.logoContainer}>
           <TouchableOpacity onPress={goHome}>
-            <Image source={require('../assets/COS_Atelier_Logo.png')} style={styles.logo} />
+            <Image source={require('../assets/404-store-logo.png')} style={styles.logo} />
           </TouchableOpacity>
         </View>
         <View style={styles.cartSearchContainer}>
@@ -81,11 +81,12 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 100,
-    height: 30,
-    resizeMode: 'contain',
+    height: 50,
+    resizeMode: 'contain'
   },
   cartSearchContainer:{
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 });
 

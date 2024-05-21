@@ -49,8 +49,8 @@ const ProductListingPage = ({ route, navigation }) => {
   return (
     <>
     <View style={styles.filterContainer}>
-      <Text>{displayName}</Text>
-      <Text>{products.length} Items</Text>
+      <Text style={{fontFamily: 'custom-font'}}>{displayName}</Text>
+      <Text style={{fontFamily: 'custom-font'}}>{products.length} Items</Text>
     </View>
     <ScrollView>
     <View style={styles.container}>
@@ -98,8 +98,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   productTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 15,
+    fontFamily: 'custom-font',
     marginBottom: 5,
     alignSelf: 'flex-start'
   },

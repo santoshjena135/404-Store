@@ -34,7 +34,7 @@ const App = () => {
   style={{ backgroundColor: 'white' }}>
     <View style={styles.navContainer}>
     <StatusBar barStyle="dark-content" />
-      <SiteBanner style={styles.sitebanner} bannerText="COS ATELIER SEASON" bannerLink="SALE 20% OFF"/>
+      <SiteBanner style={styles.sitebanner} bannerText="404 STORE SEASON" bannerLink="getSale(20% OFF)"/>
       <Header setSearchHeaderState={setSearchHeaderState} isSearchHeader={isSearchHeader} isMenuOpen={isMenuOpen}/>
     </View>
     <Stack.Navigator screenOptions={{ headerShown: false,

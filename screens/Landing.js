@@ -1,5 +1,5 @@
 import React, {useState , useEffect} from 'react';
-import { View, StyleSheet,ScrollView, Button,Text } from 'react-native';
+import { View, StyleSheet,ScrollView, Image} from 'react-native';
 import Hero from '../components/hero';
 import CTA from '../components/cta';
 import TeaserText from '../components/teasers';
@@ -51,8 +51,8 @@ import { active_categories_api_url, isSaleKeyword } from '@env';
   return ( 
         <ScrollView style={styles.scrollView}>
           <View style={styles.heroContainer}>
-            <Hero imagePath={require("../assets/women_hero.jpg")} ctaText="Women"/>
-            <Hero imagePath={require("../assets/men_hero.jpg")} ctaText="Men"/>
+            <Hero imagePath={require("../assets/landingTiles/need-a-break.jpeg")} ctaText="<Women/>"/>
+            <Hero imagePath={require("../assets/landingTiles/nodejs-black.jpeg")} ctaText="<Men/>"/>
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.ctaContainer}>
@@ -67,9 +67,12 @@ import { active_categories_api_url, isSaleKeyword } from '@env';
                   )}
             </View>
           </ScrollView>
-          <Spacer/>
           <View style={styles.teaserTextContainer}>
-            <TeaserText teaserMessage="NEW IDEAS FOR MODERN DRESSING, PRESENTED THROUGH CREATIVE EXPRESSION AND ARTISANAL TECHNIQUE"/>
+            <TeaserText teaserMessage={"()=>{`DISCOVER A UNIQUE COLLECTION OF PRINTED APPAREL THAT CELEBRATES THE SPIRIT OF PROGRAMMING AND TECHNOLOGY`};"}/>
+          </View>
+          <Spacer/>
+          <View style={styles.wideHeroContainer}>
+            <Image style={styles.wideHeroImage} source={require("../assets/wideheroimage.webp")}></Image>
           </View>
         </ScrollView>
       
@@ -83,6 +86,14 @@ const styles = StyleSheet.create({
   ctaContainer:{
     flexDirection:'row',
     padding: 30
+  },
+  wideHeroContainer:{
+    alignItems: 'center',
+    height: 10
+  },
+  wideHeroImage:{
+    height: 300,
+    width: 500
   },
   scrollView:{
     flex: 1
