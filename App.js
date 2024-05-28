@@ -11,6 +11,7 @@ import PLP from './screens/ProductListingPage';
 import SDP from './screens/SearchDisplayPage';
 import PDP from './screens/ProductDescriptionPage';
 import DeliveryPayments from './screens/DeliveryPayments';
+import Checkout from './screens/Checkout';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,7 +34,7 @@ const App = () => {
                                                   }}
   style={{ backgroundColor: 'white' }}>
     <View style={styles.navContainer}>
-    <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="dark-content" />
       <SiteBanner style={styles.sitebanner} bannerText="404 STORE SEASON" bannerLink="getSale(20% OFF)"/>
       <Header setSearchHeaderState={setSearchHeaderState} isSearchHeader={isSearchHeader} isMenuOpen={isMenuOpen}/>
     </View>
@@ -73,6 +74,11 @@ const App = () => {
       <Stack.Screen 
         name="DeliveryPayments" 
         component={DeliveryPayments}
+        options={{gestureDirection:'vertical'}}
+      />
+      <Stack.Screen 
+        name="Checkout" 
+        component={Checkout}
         options={{gestureDirection:'vertical'}}
       />
     </Stack.Navigator>

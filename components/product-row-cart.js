@@ -15,9 +15,9 @@ const ProductRow = (props) => {
                         <Text style={styles.buttonText}>{props.productName}</Text>
                     </View>
                     <View style={styles.priceInfoFlexContainer}>
-                        <Text style={styles.buttonText}>${props.productPrice.toFixed(2).replace('.',',')}</Text>
+                        <Text style={styles.buttonText}>₹ {props.productPrice.toFixed(2)}</Text>
                         <Text style={styles.buttonText}>x{props.productQty}</Text>
-                        <Text style={styles.buttonText}>${(props.productPrice*props.productQty).toFixed(2).replace('.',',')}</Text>
+                        <Text style={styles.buttonText}>₹ {(props.productPrice*props.productQty).toFixed(2)}</Text>
                     </View>
                     <View>
                         <QuantityCounter setTrigger={props.setTrigger} quantity={props.productQty} setQuantity={setQuantity} productId={props.productId}/>

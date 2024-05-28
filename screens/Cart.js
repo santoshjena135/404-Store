@@ -23,6 +23,9 @@ const Cart = ({ navigation }) => {
     navigation.navigate('PDP', { prodID : prodId });
   }
 
+  const openCheckout = (amount) => {
+    navigation.navigate('Checkout', { checkoutAmount : amount });
+  }
 
   const fetchCartDetails = async () => {
     try {
@@ -78,7 +81,7 @@ const Cart = ({ navigation }) => {
           ))}
         </ScrollView>
         <View style={styles.footerButtons}>
-            <CTA cosTheme title={`Pay $ ${cartTotal.toFixed(2).replace('.',',')}`} onPress={goBack} />
+            <CTA cosTheme title={`Pay ₹ ${cartTotal.toFixed(2)}`} onPress={()=>openCheckout(cartTotal.toFixed(2))} />
           </View>
       </>
         }

@@ -60,7 +60,7 @@ const ProductListingPage = ({ route, navigation }) => {
           <Image source={{ uri: product.image }} style={styles.productImage} />
           <Text style={styles.productTitle}>{product.title}</Text>
           <View style={styles.priceAndRatingContainer}>
-            <Text style={styles.productPrice}>$ {product.price.toFixed(2).replace('.', ',')}</Text>
+            <Text style={styles.productPrice}>₹ {product.price.toFixed(2)}</Text>
             <Text style={styles.productRating}>{product.rating.rate.toFixed(1)} ({product.rating.count})</Text>
           </View>
         </TouchableOpacity>

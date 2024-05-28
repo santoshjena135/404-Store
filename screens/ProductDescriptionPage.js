@@ -70,10 +70,6 @@ const ProductDescriptionPage = ({ route, navigation }) => {
             credentials: 'include'
           });
           const cart_data = await cart_response.json();
-          // console.log("cart_respponse ->",cart_response);
-          // console.log("focused_PDP_ID ->",prodID);
-          // console.log("cart_data -> ",cart_data);
-          // console.log("inCart?->", Object.keys(cart_data).includes(prodID.toString()));
           if(Object.keys(cart_data).includes(prodID.toString()))
           {
             console.log("In Cart");
@@ -106,7 +102,7 @@ const ProductDescriptionPage = ({ route, navigation }) => {
         <Text style={styles.titleTextStyle}>{product.title ? `${product.title}`: <SkeletonLoading/>}</Text>
         <Spacer/>
         <View style={styles.priceAndRatingContainer}>
-          <Text style={styles.priceTextStyle}>{product.price ? `$ ${product.price.toFixed(2).replace('.', ',')}`: <SkeletonLoading/>}</Text>
+          <Text style={styles.priceTextStyle}>{product.price ? `₹ ${product.price.toFixed(2)}`: <SkeletonLoading/>}</Text>
           {product.rating ? <View style={{flexDirection:'row'}}>
                               <AntDesign name="staro" size={13} color="black" />
                               <Text style={styles.ratingTextStyle}>{product.rating.rate.toFixed(1)} ({product.rating.count})</Text>
