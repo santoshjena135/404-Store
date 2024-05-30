@@ -23,8 +23,18 @@ const Cart = ({ navigation }) => {
     navigation.navigate('PDP', { prodID : prodId });
   }
 
-  const openCheckout = (amount) => {
-    navigation.navigate('Checkout', { checkoutAmount : amount });
+  const openCheckout = (amount,products,cartData) => {
+    const filteredCheckoutProducts = products.map(item => ({
+      id: item.id,
+      title: item.title,
+      image: item.image,
+      price: item.price
+    }));
+    const combinedData = filteredCheckoutProducts.map(item=>({
+      ...item,
+      "count" : cartData[item.id]
+    }));
+    navigation.navigate('Checkout', { checkoutAmount : amount, cart_items : combinedData });
   }
 
   const fetchCartDetails = async () => {
@@ -81,7 +91,7 @@ const Cart = ({ navigation }) => {
           ))}
         </ScrollView>
         <View style={styles.footerButtons}>
-            <CTA cosTheme title={`Pay ₹ ${cartTotal.toFixed(2)}`} onPress={()=>openCheckout(cartTotal.toFixed(2))} />
+            <CTA cosTheme title={`Pay ₹ ${cartTotal.toFixed(2)}`} onPress={()=>openCheckout(cartTotal.toFixed(2),productDetails,cartData)} />
           </View>
       </>
         }

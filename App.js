@@ -12,6 +12,7 @@ import SDP from './screens/SearchDisplayPage';
 import PDP from './screens/ProductDescriptionPage';
 import DeliveryPayments from './screens/DeliveryPayments';
 import Checkout from './screens/Checkout';
+import Orders from './screens/Orders';
 
 const Stack = createNativeStackNavigator();
 
@@ -80,6 +81,11 @@ const App = () => {
         name="Checkout" 
         component={Checkout}
         options={{gestureDirection:'vertical'}}
+      />
+      <Stack.Screen 
+        name="Orders" 
+        component={Orders}
+        options={{gestureDirection:'horizontal'}}
       />
     </Stack.Navigator>
   </NavigationContainer>

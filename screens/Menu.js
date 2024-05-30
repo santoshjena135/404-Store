@@ -31,6 +31,10 @@ const Menu = ({ navigation }) => {
       console.log("Clearing Cookies....");
       //to be implemented later
     }
+    else if(id==5)
+    {
+      navigation.navigate('Orders');
+    }
   }
 
   const menuItems = [

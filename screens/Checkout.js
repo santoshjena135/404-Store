@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import { View, StyleSheet } from 'react-native';
 import WebView from 'react-native-webview';
-import {rzp_test_key, create_order_api_url, flush_cart_api_url, save_order_api_url, cart_api_url} from '@env';
+import {rzp_test_key, create_order_api_url, flush_cart_api_url, save_order_api_url} from '@env';
 
 const Checkout = ({ navigation, route }) => {
 
-  const {checkoutAmount} = route.params;
+  const {checkoutAmount,cart_items} = route.params;
   const [orderID,setOrderID] = useState(null);
 
   const handleWebViewMessage = async (event) => {
@@ -16,16 +16,13 @@ const Checkout = ({ navigation, route }) => {
     else if(message.type === 'handlesuccess'){
     // i. store in DB
       try {
-        const cart = await fetch(`${cart_api_url}`,{
-          method: 'GET',
-          credentials: 'include'
-        });
 
-        const cartdata = await cart.json();
         const aggregatedPayload = {
           ...message.data,
-          cart_items: cartdata,
-          cart_amount: checkoutAmount}
+          cart_items: cart_items,
+          cart_amount: checkoutAmount,
+          order_timestamp: new Date()}
+
         const payload = JSON.stringify(aggregatedPayload);
 
         const response = await fetch(`${save_order_api_url}`,{
@@ -46,7 +43,10 @@ const Checkout = ({ navigation, route }) => {
 
     // ii. flush cart
       try {
-        const response = await fetch(`${flush_cart_api_url}`);
+        const response = await fetch(`${flush_cart_api_url}`,{
+          method: 'GET',
+          credentials: 'include'
+        });
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -57,7 +57,7 @@ const Checkout = ({ navigation, route }) => {
       }
 
     // iii. navigate to orders-page
-      navigation.goBack();
+      navigation.navigate('Orders');
     }
   };
 
@@ -67,7 +67,10 @@ const Checkout = ({ navigation, route }) => {
 
   const createOrder = async () => {
     try {
-        const response = await fetch(`${create_order_api_url}?amount=${checkoutAmount}`);
+        const response = await fetch(`${create_order_api_url}?amount=${checkoutAmount}`,{
+          method: 'GET',
+          credentials: 'include'
+        });
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
