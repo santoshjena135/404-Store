@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import { Image, View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import React from 'react';
+import { Image, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { ProgressBar, MD3Colors } from 'react-native-paper';
 
-const OrderRow = ({order}) => {
+const OrderRow = ({order, onPress}) => {
 
     return (
-        <View style={styles.rowContainer}>
+        <TouchableOpacity style={styles.rowContainer} onPress={()=>onPress()}>
             <View style={styles.countAmountContainer}>
                 <Text>{order.cart_items.length==1 ? '1 item': order.cart_items.length+' items'}</Text>
                 <Text style={styles.amountContainer}>₹ {order.amount.toFixed(2)}</Text>
@@ -47,12 +47,7 @@ const OrderRow = ({order}) => {
                     null
                 }
             </View>
-                {/* <Text>Status : {order.status}</Text>
-                <Text>Placed on: {order.order_timestamp}</Text>
-                <Text>Order_ID : {order.razorpay_order_id}</Text>
-                <Text>Payment_ID : {order.razorpay_payment_id}</Text> */}
-
-        </View>
+        </TouchableOpacity>
     );
 };
 
