@@ -13,7 +13,9 @@ const ProductListingPage = ({ route, navigation }) => {
 
   const { categoryName, displayName } = route.params;
 
-  const [products, setProducts] = useState([]); 
+  const [products, setProducts] = useState([]);
+  const [loader,setLoader] = useState(true);
+
   useEffect(() => {
     const fetchPLPData = async () => {
       try{
@@ -22,9 +24,11 @@ const ProductListingPage = ({ route, navigation }) => {
       if(cachedPLP!==null){
         //console.log("Serving PLP from cache!");
         setProducts(JSON.parse(cachedPLP));
+        setLoader(false);
       }
       else{
         //console.log("Serving PLP from fresh API call!");
+        setLoader(true);
         const url = plp_api_url+categoryName;
         const response = await fetch(url, {
           method: 'GET',
@@ -32,6 +36,7 @@ const ProductListingPage = ({ route, navigation }) => {
         });
         const data = await response.json();
         setProducts(data);
+        setLoader(false);
         await AsyncStorage.setItem(`PLP_${categoryName}`, JSON.stringify(data));
         }
       }
@@ -48,28 +53,34 @@ const ProductListingPage = ({ route, navigation }) => {
 
   return (
     <>
-    <View style={styles.filterContainer}>
-      <Text style={{fontFamily: 'custom-font'}}>{displayName}</Text>
-      <Text style={{fontFamily: 'custom-font'}}>{products.length} Items</Text>
-    </View>
-    <ScrollView>
-    <View style={styles.container}>
-      {/* Render JSON data */}
-      {products.map((product, index) => (
-      <TouchableOpacity key={index} style={styles.productTileContainer} onPress={() => openPDP(product.id)}>
-          <Image source={{ uri: product.image }} style={styles.productImage} />
-          <Text style={styles.productTitle}>{product.title}</Text>
-          <View style={styles.priceAndRatingContainer}>
-            <Text style={styles.productPrice}>₹ {product.price.toFixed(2)}</Text>
-            <Text style={styles.productRating}>{product.rating.rate.toFixed(1)} ({product.rating.count})</Text>
+    {loader==true ? 
+        <Image style={styles.loaderImage} source={require('../assets/loading.gif')}></Image> 
+                  : 
+        <>
+          <View style={styles.filterContainer}>
+            <Text style={{fontFamily: 'custom-font'}}>{displayName}</Text>
+            <Text style={{fontFamily: 'custom-font'}}>{products.length} Items</Text>
           </View>
-        </TouchableOpacity>
-      ))}
-    </View>
-    </ScrollView>
-    <View style={styles.bottomCTA}>
-      <CTA cosTheme title="Back" onPress={goBack}/>
-    </View>
+          <ScrollView>
+          <View style={styles.container}>
+            {/* Render JSON data */}
+            {products.map((product, index) => (
+            <TouchableOpacity key={index} style={styles.productTileContainer} onPress={() => openPDP(product.id)}>
+                <Image source={{ uri: product.image }} style={styles.productImage} />
+                <Text style={styles.productTitle}>{product.title}</Text>
+                <View style={styles.priceAndRatingContainer}>
+                  <Text style={styles.productPrice}>₹ {product.price.toFixed(2)}</Text>
+                  <Text style={styles.productRating}>{product.rating.rate.toFixed(1)} ({product.rating.count})</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+          </ScrollView>
+        </>
+      }
+      <View style={styles.bottomCTA}>
+        <CTA cosTheme title="Back" onPress={goBack}/>
+      </View>
     </>
   );
 };
@@ -96,6 +107,10 @@ const styles = StyleSheet.create({
     width: '100%',
     aspectRatio: 3/4, // Maintain Image aspect ratio
     marginBottom: 10,
+  },
+  loaderImage: {
+    width: '100%',
+    aspectRatio: 3/4
   },
   productTitle: {
     fontSize: 15,
