@@ -38,9 +38,10 @@ const Orders = ({ navigation }) => {
       const data = await response.json();
       console.log(JSON.stringify(data,null,2));
       setOrdersDetails(data);
-      setIsLoading(false);
     } catch (error) {
       console.log("Error occured when fetching orders details! -> ",error);
+    } finally{
+      setIsLoading(false);
     }
   }
 
@@ -52,25 +53,27 @@ const Orders = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {isLoading ? <View style={{padding:50, width: '100%', alignItems: 'center'}}><Text>Fetching Your Orders ...</Text></View> : 
+      {isLoading ?  <View style={{padding:50, width: '100%', alignItems: 'center'}}>
+                        <Text>Fetching Your Orders ...</Text>
+                    </View> : 
       <>
       {ordersDetails.length==0 ? 
-      <>
-          <Spacer/>
-          <TeaserText teaserMessage="You do not have any active orders!"/>
-          <Spacer/>
-          <CTA title="Start Shopping" onPress={goBack} />
-      </> 
+                <>
+                    <Spacer/>
+                    <TeaserText teaserMessage="You do not have any active orders!"/>
+                    <Spacer/>
+                    <CTA title="Start Shopping" onPress={goBack} />
+                </> 
       : 
-      <>
-        <ScrollView>
-            {ordersDetails.map((item, index)=>(
-              <OrderRow key={index} order={item} onPress={()=>toggleModal(item,"open")}/>
-            ))
-            }
-            <OrderPopup visible={modalVisible} onClose={()=>toggleModal(null,"close")} selectedOrder={selectedIdPopup} />
-        </ScrollView>
-      </>
+                <>
+                  <ScrollView>
+                      {ordersDetails.map((item, index)=>(
+                        <OrderRow key={index} order={item} onPress={()=>toggleModal(item,"open")}/>
+                      ))
+                      }
+                      <OrderPopup visible={modalVisible} onClose={()=>toggleModal(null,"close")} selectedOrder={selectedIdPopup} />
+                  </ScrollView>
+                </>
         }
         </>
       }
